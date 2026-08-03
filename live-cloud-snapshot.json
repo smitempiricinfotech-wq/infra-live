@@ -1,0 +1,100 @@
+{
+  "aws_security_group.web": {
+    "id": "sg-0web123456789abcd",
+    "arn": "arn:aws:ec2:us-east-1:111122223333:security-group/sg-0web123456789abcd",
+    "name": "web-sg",
+    "description": "web tier",
+    "vpc_id": "vpc-0a1b2c3d",
+    "ingress": [
+      {
+        "from_port": 443,
+        "to_port": 443,
+        "protocol": "tcp",
+        "cidr_blocks": [
+          "203.0.113.0/24"
+        ]
+      },
+      {
+        "from_port": 22,
+        "to_port": 22,
+        "protocol": "tcp",
+        "cidr_blocks": [
+          "0.0.0.0/0"
+        ]
+      }
+    ]
+  },
+  "aws_security_group.db": {
+    "id": "sg-0db123456789abcde",
+    "arn": "arn:aws:ec2:us-east-1:111122223333:security-group/sg-0db123456789abcde",
+    "name": "db-sg",
+    "description": "database tier",
+    "vpc_id": "vpc-0a1b2c3d",
+    "ingress": [
+      {
+        "from_port": 5432,
+        "to_port": 5432,
+        "protocol": "tcp",
+        "cidr_blocks": [
+          "10.0.0.0/16"
+        ]
+      },
+      {
+        "from_port": 5432,
+        "to_port": 5432,
+        "protocol": "tcp",
+        "cidr_blocks": [
+          "10.0.9.0/24"
+        ]
+      }
+    ]
+  },
+  "aws_db_instance.orders": {
+    "id": "orders-db",
+    "arn": "arn:aws:rds:us-east-1:111122223333:db:orders-db",
+    "identifier": "orders-db",
+    "engine": "postgres",
+    "instance_class": "db.r5.2xlarge",
+    "allocated_storage": 100
+  },
+  "aws_autoscaling_group.api": {
+    "id": "api-asg",
+    "arn": "arn:aws:autoscaling:us-east-1:111122223333:autoScalingGroup:0f9c2c71-1e6b-47a9-b8d7-7ad4b6c46ad2:autoScalingGroupName/api-asg",
+    "name": "api-asg",
+    "desired_capacity": 9,
+    "min_size": 2,
+    "max_size": 12
+  },
+  "aws_s3_bucket.assets": {
+    "id": "acme-assets-prod",
+    "arn": "arn:aws:s3:::acme-assets-prod",
+    "bucket": "acme-assets-prod",
+    "acl": "public-read",
+    "tags": {
+      "owner": "marketing"
+    }
+  },
+  "aws_s3_bucket_acl.assets_acl": {
+    "id": "acme-assets-prod,public-read",
+    "bucket": "acme-assets-prod",
+    "acl": "public-read"
+  },
+  "aws_ebs_volume.data": {
+    "id": "vol-0data123456789abc",
+    "arn": "arn:aws:ec2:us-east-1:111122223333:volume/vol-0data123456789abc",
+    "availability_zone": "us-east-1a",
+    "size": 500,
+    "type": "gp3"
+  },
+  "aws_cloudwatch_log_group.app": {
+    "id": "/acme/app",
+    "arn": "arn:aws:logs:us-east-1:111122223333:log-group:/acme/app",
+    "name": "/acme/app",
+    "retention_in_days": 30
+  },
+  "aws_sns_topic.alerts": {
+    "id": "arn:aws:sns:us-east-1:111122223333:prod-alerts",
+    "arn": "arn:aws:sns:us-east-1:111122223333:prod-alerts",
+    "name": "prod-alerts"
+  }
+}
