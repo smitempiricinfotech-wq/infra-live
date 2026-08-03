@@ -7,7 +7,7 @@ resource "aws_security_group" "web" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["203.0.113.0/24"]
   }
 }
 
@@ -22,12 +22,19 @@ resource "aws_security_group" "db" {
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/16"]
   }
+
+  ingress {
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.9.0/24"]
+  }
 }
 
 resource "aws_db_instance" "orders" {
   identifier        = "orders-db"
   engine            = "postgres"
-  instance_class    = "db.r5.large"
+  instance_class    = "db.r5.2xlarge"
   allocated_storage = 100
 }
 
@@ -36,6 +43,10 @@ resource "aws_autoscaling_group" "api" {
   desired_capacity = 4
   min_size         = 2
   max_size         = 12
+
+  lifecycle {
+    ignore_changes = [desired_capacity]
+  }
 }
 
 resource "aws_s3_bucket" "assets" {
@@ -49,7 +60,7 @@ resource "aws_s3_bucket_acl" "assets_acl" {
 
 resource "aws_ebs_volume" "data" {
   availability_zone = "us-east-1a"
-  size              = 100
+  size              = 500
   type              = "gp3"
 }
 
